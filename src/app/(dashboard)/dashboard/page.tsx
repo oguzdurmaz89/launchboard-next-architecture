@@ -1,21 +1,33 @@
 import { Card } from "@/components/ui/card";
 import { LaunchList } from "@/features/launches/components/launch-list";
-import { launches } from "@/features/launches/data/launches.mock";
+import { getLaunches } from "@/features/launches/data/get-launches";
 
-const stats = [
-  { label: "Active launches", value: "8" },
-  { label: "Pending approvals", value: "3" },
-  { label: "Blocked workflows", value: "2" },
-];
+const DashboardPage = async () => {
+  const launches = await getLaunches();
+  const activeLaunches = launches.filter(
+    (launch) => launch.status !== "launched",
+  ).length;
 
-const DashboardPage = () => {
+  const plannedLaunches = launches.filter(
+    (launch) => launch.status === "planned",
+  ).length;
+
+  const blockedLaunches = launches.filter(
+    (launch) => launch.status === "blocked",
+  ).length;
+
+  const stats = [
+    { label: "Active launches", value: String(activeLaunches) },
+    { label: "Planned approvals", value: String(plannedLaunches) },
+    { label: "Blocked workflows", value: String(blockedLaunches) },
+  ];
+
   return (
     <div className="space-y-8">
       <section>
         <h2 className="text-2xl font-semibold text-slate-950">Overview</h2>
         <p className="mt-2 max-w-2xl text-sm text-slate-600">
-          This dashboard is the foundation for the authenticated launch
-          management workspace.
+          This dashboard is now backed by PostgreSQL through Prisma.
         </p>
       </section>
 
@@ -36,7 +48,7 @@ const DashboardPage = () => {
             Recent launches
           </h3>
           <p className="mt-1 text-sm text-slate-600">
-            Feature-owned UI with typed launch data and status mapping.
+            Server-rendered launch data loaded directly from the database.
           </p>
         </div>
 
@@ -45,5 +57,4 @@ const DashboardPage = () => {
     </div>
   );
 };
-
 export default DashboardPage;

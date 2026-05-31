@@ -1,7 +1,9 @@
 import { LaunchList } from "@/features/launches/components/launch-list";
-import { launches } from "@/features/launches/data/launches.mock";
+import { getLaunches } from "@/features/launches/data/get-launches";
 
-const LaunchesPage = () => {
+export default async function LaunchesPage() {
+  const launches = await getLaunches();
+
   return (
     <div className="space-y-6">
       <section>
@@ -15,5 +17,4 @@ const LaunchesPage = () => {
       <LaunchList launches={launches} />
     </div>
   );
-};
-export default LaunchesPage;
+}

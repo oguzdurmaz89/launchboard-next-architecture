@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+datasource db {
+  provider = "postgresql"
+}
+
+enum LaunchStatus {
+  PLANNED
+  IN_PROGRESS
+  BLOCKED
+  LAUNCHED
+}
+
+enum LaunchPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  image     String?
+  launches  Launch[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Launch {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  status      LaunchStatus   @default(PLANNED)
+  priority    LaunchPriority @default(MEDIUM)
+  targetDate  DateTime
+  ownerId     String
+  owner       User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([ownerId])
+  @@index([status])
+  @@index([targetDate])
+}

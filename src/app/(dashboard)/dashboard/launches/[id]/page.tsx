@@ -1,25 +1,23 @@
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
-import { launches } from "@/features/launches/data/launches.mock";
+import { getLaunchById } from "@/features/launches/data/get-launches";
 import {
   getLaunchStatusLabel,
   getLaunchStatusTone,
 } from "@/features/launches/utils/launch-status";
 
-type LaunchDetailPageProps = {
+type LaunchDetailsPageProps = {
   params: Promise<{
     id: string;
   }>;
 };
 
-const LaunchDetailPage = async ({ params }: LaunchDetailPageProps) => {
+const LaunchDetailsPage = async ({ params }: LaunchDetailsPageProps) => {
   const { id } = await params;
-  const launch = launches.find((item) => item.id === id);
-
+  const launch = await getLaunchById(id);
   if (!launch) {
     notFound();
   }
-
   return (
     <div className="space-y-6">
       <section>
@@ -63,5 +61,4 @@ const LaunchDetailPage = async ({ params }: LaunchDetailPageProps) => {
     </div>
   );
 };
-
-export default LaunchDetailPage;
+export default LaunchDetailsPage;
