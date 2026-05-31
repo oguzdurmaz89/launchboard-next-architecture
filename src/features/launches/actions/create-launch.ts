@@ -1,5 +1,6 @@
 "use server";
 
+import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db/prisma";
@@ -27,8 +28,7 @@ export const createLaunchAction = async (
   };
   const parsedInput = createLaunchSchema.safeParse(rawInput);
   if (!parsedInput.success) {
-    const fieldErrors = parsedInput.error.flatten().fieldErrors;
-
+    const fieldErrors = z.flattenError(parsedInput.error).fieldErrors;
     return {
       status: "error",
       message: "Please correct the errors below.",
