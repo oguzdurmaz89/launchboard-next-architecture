@@ -5,6 +5,7 @@ import {
   getLaunchStatusLabel,
   getLaunchStatusTone,
 } from "@/features/launches/utils/launch-status";
+import { requireCurrentUser } from "@/lib/auth/get-current-user";
 
 type LaunchDetailsPageProps = {
   params: Promise<{
@@ -14,7 +15,9 @@ type LaunchDetailsPageProps = {
 
 const LaunchDetailsPage = async ({ params }: LaunchDetailsPageProps) => {
   const { id } = await params;
-  const launch = await getLaunchById(id);
+  const user = await requireCurrentUser();
+  const launch = await getLaunchById(id, user.id);
+
   if (!launch) {
     notFound();
   }

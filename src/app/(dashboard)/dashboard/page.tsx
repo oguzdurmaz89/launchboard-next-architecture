@@ -1,9 +1,11 @@
 import { Card } from "@/components/ui/card";
 import { LaunchList } from "@/features/launches/components/launch-list";
 import { getLaunches } from "@/features/launches/data/get-launches";
+import { requireCurrentUser } from "@/lib/auth/get-current-user";
 
 const DashboardPage = async () => {
-  const launches = await getLaunches();
+  const user = await requireCurrentUser();
+  const launches = await getLaunches(user.id);
   const activeLaunches = launches.filter(
     (launch) => launch.status !== "launched",
   ).length;

@@ -13,7 +13,7 @@ type LaunchRecord = {
   targetDate: Date;
   owner: {
     name: string | null;
-    email: string;
+    email: string | null;
   };
 };
 
@@ -51,17 +51,19 @@ const mapLaunch = (record: LaunchRecord): Launch => {
     name: record.name,
     status: mapLaunchStatus(record.status),
     priority: mapLaunchPriority(record.priority),
-    ownerName: record.owner.name ?? record.owner.email,
+    ownerName: record.owner.name ?? record.owner.email ?? "Unknown owner",
     targetDate: record.targetDate.toISOString().slice(0, 10),
   };
 };
 
-export const getLaunches = async (): Promise<Launch[]> => {
+export const getLaunches = async (ownerId: string): Promise<Launch[]> => {
   const records = await prisma.launch.findMany({
+    where: {
+      ownerId,
+    },
     orderBy: {
       createdAt: "desc",
     },
-
     include: {
       owner: {
         select: {
@@ -74,10 +76,14 @@ export const getLaunches = async (): Promise<Launch[]> => {
   return records.map(mapLaunch);
 };
 
-export const getLaunchById = async (id: string): Promise<Launch | null> => {
-  const record = await prisma.launch.findUnique({
+export const getLaunchById = async (
+  id: string,
+  ownerId: string,
+): Promise<Launch | null> => {
+  const record = await prisma.launch.findFirst({
     where: {
       id,
+      ownerId,
     },
     include: {
       owner: {

@@ -9,6 +9,7 @@ import type {
   CreateLaunchActionState,
   CreateLaunchField,
 } from "@/features/launches/actions/create-launch-state";
+import { requireCurrentUser } from "@/lib/auth/get-current-user";
 
 const getFormString = (formData: FormData, key: CreateLaunchField): string => {
   const value = formData.get(key);
@@ -43,24 +44,7 @@ export const createLaunchAction = async (
     };
   }
 
-  const owner = await prisma.user.findUnique({
-    where: {
-      email: "oguz@launchboard.dev",
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  if (!owner) {
-    return {
-      status: "error",
-      message: "Demo owner has not found. Run npm run db:seed first",
-      fieldErrors: {},
-      values: rawInput,
-    };
-  }
-
+  const user = await requireCurrentUser();
   const launch = await prisma.launch.create({
     data: {
       name: parsedInput.data.name,
@@ -68,14 +52,14 @@ export const createLaunchAction = async (
       status: parsedInput.data.status,
       priority: parsedInput.data.priority,
       targetDate: parsedInput.data.targetDate,
-      ownerId: owner.id,
+      ownerId: user.id,
     },
     select: {
       id: true,
     },
   });
   revalidatePath("/dashboard");
-  revalidatePath("/dashbaord/launches");
+  revalidatePath("/dashboard/launches");
   redirect(`/dashboard/launches/${launch.id}`);
 };
 //Form -> Server Action -> Zod -> Prisma -> PostgreSQL

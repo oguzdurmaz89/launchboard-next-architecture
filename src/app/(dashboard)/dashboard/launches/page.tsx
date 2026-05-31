@@ -1,8 +1,10 @@
 import { LaunchList } from "@/features/launches/components/launch-list";
 import { getLaunches } from "@/features/launches/data/get-launches";
+import { requireCurrentUser } from "@/lib/auth/get-current-user";
 
 export default async function LaunchesPage() {
-  const launches = await getLaunches();
+  const user = await requireCurrentUser();
+  const launches = await getLaunches(user.id);
 
   return (
     <div className="space-y-6">
