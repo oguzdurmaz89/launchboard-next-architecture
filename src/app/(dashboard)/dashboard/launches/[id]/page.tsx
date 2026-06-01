@@ -6,6 +6,7 @@ import {
   getLaunchStatusTone,
 } from "@/features/launches/utils/launch-status";
 import { requireCurrentUser } from "@/lib/auth/get-current-user";
+import { DeleteLaunchButton } from "@/features/launches/components/delete-launch-button";
 
 type LaunchDetailsPageProps = {
   params: Promise<{
@@ -23,11 +24,15 @@ const LaunchDetailsPage = async ({ params }: LaunchDetailsPageProps) => {
   }
   return (
     <div className="space-y-6">
-      <section>
-        <p className="text-sm text-slate-500">{launch.id}</p>
-        <h2 className="mt-1 text-2xl font-semibold text-slate-950">
-          {launch.name}
-        </h2>
+      <section className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-sm text-slate-500">{launch.id}</p>
+          <h2 className="mt-1 text-2xl font-semibold text-slate-950">
+            {launch.name}
+          </h2>
+        </div>
+
+        <DeleteLaunchButton launchId={launch.id} />
       </section>
 
       <section className="grid gap-4 md:grid-cols-2">
