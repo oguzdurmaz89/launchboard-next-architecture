@@ -1,4 +1,4 @@
-import { LaunchList } from "@/features/launches/components/launch-list";
+import { LaunchesBoard } from "@/features/launches/components/launches-board";
 import { getLaunches } from "@/features/launches/data/get-launches";
 import { requireCurrentUser } from "@/lib/auth/get-current-user";
 
@@ -16,7 +16,7 @@ export default async function LaunchesPage() {
         </p>
       </section>
 
-      <LaunchList launches={launches} />
+      <LaunchesBoard launches={launches} />
     </div>
   );
 }
