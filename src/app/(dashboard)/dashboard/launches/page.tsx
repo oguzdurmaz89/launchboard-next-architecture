@@ -2,7 +2,7 @@ import { LaunchesBoard } from "@/features/launches/components/launches-board";
 import { getLaunches } from "@/features/launches/data/get-launches";
 import { requireCurrentUser } from "@/lib/auth/get-current-user";
 
-export default async function LaunchesPage() {
+const LaunchesPage = async () => {
   const user = await requireCurrentUser();
   const launches = await getLaunches(user.id);
 
@@ -19,4 +19,5 @@ export default async function LaunchesPage() {
       <LaunchesBoard launches={launches} />
     </div>
   );
-}
+};
+export default LaunchesPage;
