@@ -6,6 +6,7 @@ import { LaunchEmptyState } from "@/features/launches/components/launch-empty-st
 import { LaunchList } from "@/features/launches/components/launch-list";
 import type { Launch } from "@/features/launches/types/launch";
 import { useLaunchFiltersStore } from "@/store/launch-filters-store";
+import { filterLaunches } from "@/features/launches/utils/filter-launches";
 
 type LaunchesBoardProps = {
   launches: Launch[];
@@ -26,23 +27,16 @@ export const LaunchesBoard = ({ launches }: LaunchesBoardProps) => {
   const setPriority = useLaunchFiltersStore((state) => state.setPriority);
   const resetFilters = useLaunchFiltersStore((state) => state.resetFilters);
 
-  const filteredLaunches = useMemo(() => {
-    const normalizedSearchQuery = searchQuery.trim().toLowerCase();
-
-    return launches.filter((launch) => {
-      const matchesSearch =
-        normalizedSearchQuery.length === 0 ||
-        launch.name.toLowerCase().includes(normalizedSearchQuery) ||
-        launch.ownerName.toLowerCase().includes(normalizedSearchQuery) ||
-        launch.description?.toLowerCase().includes(normalizedSearchQuery);
-
-      const matchesStatus = status === "all" || launch.status === status;
-      const matchesPriority =
-        priority === "all" || launch.priority === priority;
-
-      return matchesSearch && matchesStatus && matchesPriority;
-    });
-  }, [launches, priority, searchQuery, status]);
+  const filteredLaunches = useMemo(
+    () =>
+      filterLaunches({
+        launches,
+        searchQuery,
+        status,
+        priority,
+      }),
+    [launches, priority, searchQuery, status],
+  );
 
   return (
     <div className="space-y-4">

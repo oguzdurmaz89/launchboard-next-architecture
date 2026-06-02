@@ -4,8 +4,8 @@ import type {
   LaunchStatus,
 } from "@/features/launches/types/launch";
 
-type LaunchStatusFilter = LaunchStatus | "all";
-type LaunchPriorityFilter = LaunchPriority | "all";
+export type LaunchStatusFilter = LaunchStatus | "all";
+export type LaunchPriorityFilter = LaunchPriority | "all";
 
 type LaunchFiltersState = {
   searchQuery: string;
