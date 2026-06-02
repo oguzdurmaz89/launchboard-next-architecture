@@ -1,8 +1,8 @@
 # LaunchBoard Next.js Architecture
 
-LaunchBoard is a modern Next.js architecture case study focused on building a clean, database-backed launch management dashboard with strong frontend architecture and real full-stack boundaries.
+LaunchBoard is a modern launch management dashboard built with Next.js App Router, TypeScript, PostgreSQL, Prisma, Auth.js, Zod, Zustand, Tailwind CSS, and Vitest.
 
-The goal of this project is not to build a toy CRUD app. The goal is to demonstrate how a serious App Router project can be structured with clear server/client boundaries, feature-based architecture, database access, authentication, authorization, validation, and testable logic.
+The project focuses on building a clean, maintainable, database-backed product workflow with clear server/client boundaries, protected dashboard routes, user-owned records, validation, authorization, and testable logic.
 
 ## Getting Started
 
@@ -18,7 +18,7 @@ npm install
 docker compose up -d
 ```
 
-This starts a local PostgreSQL database for development.
+This starts the local PostgreSQL database used by the application.
 
 ### 3. Create the environment file
 
@@ -165,9 +165,9 @@ This project demonstrates:
 
 ## Core Features
 
-### Public Marketing Page
+### Public Landing Page
 
-A public landing page available at:
+A public landing page is available at:
 
 ```txt
 /
@@ -228,7 +228,7 @@ This page demonstrates how the protected dashboard reads the authenticated user 
 ## Route Map
 
 ```txt
-/                                  Public marketing page
+/                                  Public landing page
 /login                             GitHub sign-in page
 /dashboard                         Protected dashboard overview
 /dashboard/launches                User-owned launch list
@@ -629,20 +629,20 @@ Examples:
 
 The app intentionally returns `notFound()` when a user tries to access a launch they do not own.
 
-## Final Project Goal
+## Engineering Focus
 
-LaunchBoard is a frontend-led full-stack architecture case study.
+LaunchBoard is designed around maintainable product architecture rather than isolated UI screens.
 
-It shows how a frontend-focused engineer can structure a modern Next.js application with:
+The project focuses on:
 
-* Clean routing
-* Strong UI structure
-* Server-side database access
-* Authentication
-* Authorization
-* Validation
-* Client-side UI state
-* Tests
-* Maintainable architecture boundaries
+* Clear routing and layout boundaries
+* Server-first data loading
+* Safe mutation flows with Server Actions
+* Database-backed records with Prisma and PostgreSQL
+* Authenticated access with Auth.js
+* Server-side ownership checks
+* Runtime validation with Zod
+* Small, isolated client-side state with Zustand
+* Testable business logic with Vitest
 
-The emphasis is not only on building features, but on building them in a way that is understandable, maintainable, and presentable as a serious architecture project.
+The codebase keeps product logic close to its feature area, keeps database access on the server, and avoids turning route files or client stores into catch-all containers.
