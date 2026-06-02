@@ -4,7 +4,7 @@ const navigationItems = [
   { href: "/dashboard", label: "Overview" },
   { href: "/dashboard/launches", label: "Launches" },
   { href: "/dashboard/launches/new", label: "Create launch" },
-  { href: "/dashboard/account", label: "Settings" },
+  { href: "/dashboard/account", label: "Account" },
 ];
 
 export const DashboardSidebar = () => {

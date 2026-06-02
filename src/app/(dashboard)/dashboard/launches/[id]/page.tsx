@@ -34,7 +34,13 @@ const LaunchDetailsPage = async ({ params }: LaunchDetailsPageProps) => {
 
         <DeleteLaunchButton launchId={launch.id} />
       </section>
+      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h3 className="text-sm font-medium text-slate-500">Description</h3>
 
+        <p className="mt-3 text-sm leading-6 text-slate-700">
+          {launch.description ?? "No description was provided for this launch."}
+        </p>
+      </section>
       <section className="grid gap-4 md:grid-cols-2">
         <div className="rounded-2xl border border-slate-200 bg-white p-5">
           <p className="text-sm text-slate-500">Status</p>

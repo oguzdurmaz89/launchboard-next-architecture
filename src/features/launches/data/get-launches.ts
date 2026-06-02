@@ -8,6 +8,7 @@ import {
 type LaunchRecord = {
   id: string;
   name: string;
+  description: string | null;
   status: string;
   priority: string;
   targetDate: Date;
@@ -49,6 +50,7 @@ const mapLaunch = (record: LaunchRecord): Launch => {
   return {
     id: record.id,
     name: record.name,
+    description: record.description,
     status: mapLaunchStatus(record.status),
     priority: mapLaunchPriority(record.priority),
     ownerName: record.owner.name ?? record.owner.email ?? "Unknown owner",

@@ -29,7 +29,14 @@ export const LaunchList = ({ launches }: LaunchListProps) => {
         >
           <div className="col-span-5">
             <p className="font-medium text-slate-950">{launch.name}</p>
-            <p className="mt-1 text-xs text-slate-500">{launch.id}</p>
+
+            {launch.description ? (
+              <p className="mt-1 line-clamp-1 text-xs text-slate-500">
+                {launch.description}
+              </p>
+            ) : (
+              <p className="mt-1 text-xs text-slate-400">No description</p>
+            )}
           </div>
 
           <div className="col-span-2">
